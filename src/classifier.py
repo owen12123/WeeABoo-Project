@@ -3,6 +3,8 @@ from keras.models import Sequential
 from keras.layers import Conv2D, MaxPooling2D
 from keras.layers import Activation, Dropout, Flatten, Dense
 from keras import backend as K
+from keras import metrics
+
 import keras
 from PIL import ImageFile
 
@@ -15,9 +17,9 @@ img_width, img_height = 150, 150
 train_data_dir = '/Users/lordent/Desktop/data/train'
 #validation_data_dir = 'data/validation'
 validation_data_dir = '/Users/lordent/Desktop/data/validation'
-nb_train_samples = 1367
+nb_train_samples = 981
 nb_validation_samples = 200
-epochs = 100
+epochs = 30
 batch_size = 16
 
 if K.image_data_format() == 'channels_first':
@@ -55,9 +57,13 @@ model.add(Dropout(0.5))
 model.add(Dense(1))
 model.add(Activation('sigmoid'))
 
-model.compile(loss='binary_crossentropy',
-              optimizer='rmsprop',
-              metrics=['accuracy'])
+#model.compile(loss='sparse_categorical_crossentropy',
+#              optimizer='rmsprop',
+#              metrics=['accuracy'])
+
+model.compile(loss='mean_squared_error',
+              optimizer='sgd',
+              metrics=[metrics.mae, metrics.categorical_accuracy])
 
 # this is the augmentation configuration we will use for training
 train_datagen = ImageDataGenerator(
