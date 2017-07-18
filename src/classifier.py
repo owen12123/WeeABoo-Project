@@ -13,13 +13,13 @@ ImageFile.LOAD_TRUNCATED_IMAGES = True
 # dimensions of our images.
 img_width, img_height = 150, 150
 
-#train_data_dir = 'data/train'
-train_data_dir = '/Users/lordent/Desktop/data/train'
-#validation_data_dir = 'data/validation'
-validation_data_dir = '/Users/lordent/Desktop/data/validation'
-nb_train_samples = 981
-nb_validation_samples = 200
-epochs = 30
+train_data_dir = 'data/train'
+#train_data_dir = '/Users/lordent/Desktop/data/train'
+validation_data_dir = 'data/validation'
+#validation_data_dir = '/Users/lordent/Desktop/data/validation'
+nb_train_samples = 2743
+nb_validation_samples = 340
+epochs = 50
 batch_size = 16
 
 if K.image_data_format() == 'channels_first':
@@ -61,9 +61,9 @@ model.add(Activation('sigmoid'))
 #              optimizer='rmsprop',
 #              metrics=['accuracy'])
 
-model.compile(loss='mean_squared_error',
-              optimizer='sgd',
-              metrics=[metrics.mae, metrics.categorical_accuracy])
+model.compile(loss='binary_crossentropy',
+              optimizer='rmsprop',
+              metrics=['accuracy'])
 
 # this is the augmentation configuration we will use for training
 train_datagen = ImageDataGenerator(
@@ -98,4 +98,4 @@ model.fit_generator(
     validation_steps=nb_validation_samples // batch_size,
     callbacks=[tbCallBack])
 
-model.save_weights('test2.h5')
+model.save('cosplay_only_binary.h5')
