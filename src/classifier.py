@@ -4,6 +4,7 @@ from keras.layers import Conv2D, MaxPooling2D
 from keras.layers import Activation, Dropout, Flatten, Dense
 from keras import backend as K
 from keras import metrics
+from keras.optimizers import SGD
 
 import keras
 from PIL import ImageFile
@@ -13,12 +14,12 @@ ImageFile.LOAD_TRUNCATED_IMAGES = True
 # dimensions of our images.
 img_width, img_height = 150, 150
 
-train_data_dir = 'data/train'
-#train_data_dir = '/Users/lordent/Desktop/data/train'
-validation_data_dir = 'data/validation'
-#validation_data_dir = '/Users/lordent/Desktop/data/validation'
-nb_train_samples = 2743
-nb_validation_samples = 340
+#train_data_dir = 'data/train'
+train_data_dir = '/Users/lordent/Desktop/data/train'
+#validation_data_dir = 'data/validation'
+validation_data_dir = '/Users/lordent/Desktop/data/validation'
+nb_train_samples = 981
+nb_validation_samples = 200
 epochs = 50
 batch_size = 16
 
@@ -54,16 +55,18 @@ model.add(Flatten())
 model.add(Dense(128))
 model.add(Activation('relu'))
 model.add(Dropout(0.5))
-model.add(Dense(1))
+model.add(Dense(4))
 model.add(Activation('sigmoid'))
 
-#model.compile(loss='sparse_categorical_crossentropy',
+sgd = SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
+
+model.compile(loss='categorical_crossentropy',
+              optimizer=sgd,
+              metrics=['accuracy'])
+
+#model.compile(loss='binary_crossentropy',
 #              optimizer='rmsprop',
 #              metrics=['accuracy'])
-
-model.compile(loss='binary_crossentropy',
-              optimizer='rmsprop',
-              metrics=['accuracy'])
 
 # this is the augmentation configuration we will use for training
 train_datagen = ImageDataGenerator(
@@ -80,13 +83,13 @@ train_generator = train_datagen.flow_from_directory(
     train_data_dir,
     target_size=(img_width, img_height),
     batch_size=batch_size,
-    class_mode='sparse')
+    class_mode='categorical')
 
 validation_generator = test_datagen.flow_from_directory(
     validation_data_dir,
     target_size=(img_width, img_height),
     batch_size=batch_size,
-    class_mode='sparse')
+    class_mode='categorical')
 
 tbCallBack = keras.callbacks.TensorBoard(log_dir='./Graph', histogram_freq=0, write_graph=True, write_images=True)
 
@@ -98,4 +101,4 @@ model.fit_generator(
     validation_steps=nb_validation_samples // batch_size,
     callbacks=[tbCallBack])
 
-model.save('cosplay_only_binary.h5')
+model.save('cosplay_only_binary_2.h5')
