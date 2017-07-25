@@ -18,8 +18,8 @@ img_width, img_height = 150, 150
 train_data_dir = '/Users/lordent/Desktop/data/train'
 #validation_data_dir = 'data/validation'
 validation_data_dir = '/Users/lordent/Desktop/data/validation'
-nb_train_samples = 981
-nb_validation_samples = 200
+nb_train_samples = 5417
+nb_validation_samples = 595
 epochs = 50
 batch_size = 16
 
@@ -55,7 +55,7 @@ model.add(Flatten())
 model.add(Dense(128))
 model.add(Activation('relu'))
 model.add(Dropout(0.5))
-model.add(Dense(4))
+model.add(Dense(12))
 model.add(Activation('sigmoid'))
 
 sgd = SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
@@ -101,4 +101,4 @@ model.fit_generator(
     validation_steps=nb_validation_samples // batch_size,
     callbacks=[tbCallBack])
 
-model.save('cosplay_only_binary_2.h5')
+model.save('cosplay_only_12_1.h5')
