@@ -14,12 +14,12 @@ ImageFile.LOAD_TRUNCATED_IMAGES = True
 # dimensions of our images.
 img_width, img_height = 150, 150
 
-#train_data_dir = 'data/train'
-train_data_dir = '/Users/lordent/Desktop/data/train'
-#validation_data_dir = 'data/validation'
-validation_data_dir = '/Users/lordent/Desktop/data/validation'
-nb_train_samples = 5417
-nb_validation_samples = 595
+train_data_dir = 'data/train'
+#train_data_dir = '/Users/lordent/Desktop/data/train'
+validation_data_dir = 'data/validation'
+#validation_data_dir = '/Users/lordent/Desktop/data/validation'
+nb_train_samples = 8699
+nb_validation_samples = 1200
 epochs = 50
 batch_size = 32
 
@@ -34,22 +34,13 @@ model.add(Conv2D(32, (3, 3), input_shape=input_shape))
 model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
 
-model.add(Conv2D(32, (3, 3)))
-model.add(Activation('relu'))
-
 model.add(Conv2D(32, (3, 3), input_shape=input_shape))
 model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
 
 model.add(Conv2D(64, (3, 3)))
 model.add(Activation('relu'))
-
-model.add(Conv2D(64, (3, 3)))
-model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
-
-model.add(Conv2D(64, (3, 3)))
-model.add(Activation('relu'))
 
 model.add(Conv2D(64, (3, 3)))
 model.add(Activation('relu'))
@@ -110,4 +101,4 @@ model.fit_generator(
     validation_steps=nb_validation_samples // batch_size,
     callbacks=[tbCallBack])
 
-model.save('cosplay_only_12_1.h5')
+model.save('100epoch_dracostocos_12cls_32bat.h5')
