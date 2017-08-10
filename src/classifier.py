@@ -14,14 +14,14 @@ ImageFile.LOAD_TRUNCATED_IMAGES = True
 # dimensions of our images.
 img_width, img_height = 150, 150
 
-train_data_dir = 'data/train'
-#train_data_dir = '/Users/lordent/Desktop/data/train'
-validation_data_dir = 'data/validation'
-#validation_data_dir = '/Users/lordent/Desktop/data/validation'
+#train_data_dir = 'data/train'
+train_data_dir = '/Users/lordent/Desktop/data/train'
+#validation_data_dir = 'data/validation'
+validation_data_dir = '/Users/lordent/Desktop/data/validation'
 nb_train_samples = 8699
 nb_validation_samples = 1200
-epochs = 50
-batch_size = 32
+epochs = 100
+batch_size = 64
 
 if K.image_data_format() == 'channels_first':
     input_shape = (3, img_width, img_height)
